@@ -1,0 +1,27 @@
+/* body {
+    margin: 0;
+    font-family: sans-serif;
+} */
+
+
+.container {
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    text-decoration: none;
+    color: #000;
+}
+
+footer {
+    padding: 10px;
+    background-color: lightgrey;
+    color:black;
+    align-items: start;
+    height: 150px;
+    width: 50%;
+    
+  }
