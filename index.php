@@ -19,13 +19,13 @@
         <div class="row justify-content-end">
             <div class="col-3 text-right mt-5">
                 <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Otsi" aria-label="Search">
+                    <input class="form-control mr-sm-2 rounded-0" type="search" placeholder="Otsi" aria-label="Search">
                 </form>
             </div>
         </div>
     </div>
     <div class="container table-container">
-        <table class="table table-bordered text-start  mt-1">
+        <table class="table table-bordered text-start rounded-0 mt-1">
             <thead>
                 <th scope="col">Nimi</th>
                 <th scope="col">Asukoht</th>
@@ -46,9 +46,8 @@
     <div class="container">
         <div class="row">
             <div class="col-12 d-flex justify-content-end">
-                <button class="btn btn-primary" id="prevPage">
-                    < Eelmised </button><a>&nbsp</a>
-                        <button class="btn btn-primary" id="nextPage"> Järgmised > </button>
+                <button class="btn btn-outline-secondary rounded-0 text-dark" id="prevPage"> < Eelmised </button><a>&nbsp</a>
+                <button class="btn btn-outline-secondary rounded-0 text-dark" id="nextPage"> Järgmised > </button>
             </div>
         </div>
     </div>
