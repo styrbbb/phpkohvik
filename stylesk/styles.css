@@ -1,0 +1,19 @@
+footer {
+    padding: 8px;
+    background-color: lightgrey;
+    color:black;
+    align-items: end;
+    height: 15;
+    width: 190%;
+    
+  }
+
+  .table-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  /* .search_container {
+    justify-content: end;
+  } */
