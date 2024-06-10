@@ -13,24 +13,57 @@
 <body>
 
     <div class="container">
-        <h1 class="display-6 mt-3">Hinda kohvikut</h1>
+        <h1 class="display-6 mt-3 text-center">Hinda kohvikut</h1>
     </div>
-    <?php include('config.php'); ?>
-    <?php 
-        
+    <?php include ('config.php'); ?>
+    <?php
+
     ?>
     <div class="container">
         <form>
-            <div class="mb-3">
-                Nimi: <input type="text" class="form-control" id="nimi">
+            <div class="row mt-5 justify-content-center">
+                <label for="nimi" class="col-sm-2 col-form-label">Nimi</label>
+                <div class="col-3 mb-3">
+                    <input type="text" class="form-control rounded-0" id="nimi" required>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1">
+            <div class="row mt-1 justify-content-center">
+                <label for="kommentaar" class="col-sm-2 col-form-label">Kommentaar</label>
+                <div class="col-3 mb-3">
+                    <textarea class="form-control" id="kommentaar" required></textarea>
+                </div>
             </div>
-                <button type="submit" class="btn btn-primary">Saada!</button>
+            <div class="row mt-1 justify-content-center">
+                <label for="nimi" class="col-sm-2 col-form-label">Hinnang</label>
+                <div class="col-3 mb-3">
+                    <ul id="rating">
+                        <li class="block text-center">
+                            <i class="fa-regular fa-star fa-lg"></i>
+                            <i class="fa-regular fa-star fa-lg"></i>
+                            <i class="fa-regular fa-star fa-lg"></i>
+                            <i class="fa-regular fa-star fa-lg"></i>
+                            <i class="fa-regular fa-star fa-lg"></i>
+                            <i class="fa-regular fa-star fa-lg"></i>
+                            <i class="fa-regular fa-star fa-lg"></i>
+                            <i class="fa-regular fa-star fa-lg"></i>
+                            <i class="fa-regular fa-star fa-lg"></i>
+                            <i class="fa-regular fa-star fa-lg"></i>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row mt-1 justify-content-end">
+                <div class="col-sm-1">
+                    <a class="btn btn-link" href="index.php">
+                        < Tagasi</a>
+                </div>
+                <div class="col-5">
+                    <button type="submit" class="btn btn-outline-dark rounded-0">Saada!</button>
+                </div>
+            </div>
         </form>
     </div>
+
 
     <footer class="fixed-bottom">
         <div class="container">
@@ -42,8 +75,7 @@
         </div>
     </footer>
 
-
-
+    <script src="https://kit.fontawesome.com/56055df5c8.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
