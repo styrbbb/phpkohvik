@@ -8,11 +8,6 @@
     <link rel="stylesheet" type="text/css" href="stylesk/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-    <script>
-        function redirectToPage(nimi) {
-            window.location.href = 'form.php?nimi=' + encodeURIComponent(nimi);
-        }
-    </script>
 </head>
 
 <body>
@@ -32,32 +27,33 @@
     </div>
     <?php include('config.php'); ?>
     <?php 
-        $perPage = 10; // Kohvikute arv lehel
-        $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1; //Kasutab ? ehk kolmeosaline operaator, mis on üks tingismuslike operaatorite liike. Seda põhimõteliselt kasutatakse, et lühendada kooditükki.
-        $offset = ($currentPage - 1) * $perPage;
+        // $perPage = 10; // Kohvikute arv lehel
+    //     $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1; //Kasutab ? ehk kolmeosaline operaator, mis on üks tingismuslike operaatorite liike. Seda põhimõteliselt kasutatakse, et lühendada kooditükki.
+    //     $offset = ($currentPage - 1) * $perPage;
         
-        $search = isset($_GET['search']) ? $_GET['search'] : '';
+    //     $search = isset($_GET['search']) ? $_GET['search'] : '';
 
-        $totalQuery = 'SELECT COUNT(*) as total FROM kohvikud';
-        if ($search) {
-            $totalQuery .= " WHERE nimi LIKE '%$search%'";
-        }
-        $totalResult = $yhendus->query($totalQuery);
-        $totalKohvikud = $totalResult->fetch_assoc()['total'];
-        $totalPages = ceil($totalKohvikud / $perPage);
+    //     $totalQuery = 'SELECT COUNT(*) as total FROM kohvikud';
+    //     if ($search) {
+    //         $totalQuery .= " WHERE nimi LIKE '%$search%'";
+    //     }
+    //     $totalResult = $yhendus->query($totalQuery);
+    //     $totalKohvikud = $totalResult->fetch_assoc()['total'];
+    //     $totalPages = ceil($totalKohvikud / $perPage);
 
-        $paring = "SELECT * FROM kohvikud";
-        if ($search) {
-            $paring .= " WHERE nimi LIKE '%$search%'";
-        }
-        $paring .= " LIMIT $perPage OFFSET $offset"; 
-        $valjund = $yhendus->query($paring);
+    //     $paring = "SELECT * FROM kohvikud";
+    //     if ($search) {
+    //         $paring .= " WHERE nimi LIKE '%$search%'";
+    //     }
+    //     $paring .= " LIMIT $perPage OFFSET $offset"; 
+    //     $valjund = $yhendus->query($paring);
         
     echo "<div class='container table-container'>";
         echo "<table class='table table-light table-hover table-bordered text-start rounded-0 mt-1'>";
 
             echo "<thead class='table-secondary'>";
                 echo "<tr>";
+                    echo "<th scope='col'>ID</th>";
                     echo "<th scope='col'>Nimi</th>";
                     echo "<th scope='col'>Asukoht</th>";
                     echo "<th scope='col'>Keskmine hinne</th>";
@@ -65,26 +61,31 @@
                 echo "</tr>";
             echo "</thead>";
 
-            if ($valjund->num_rows > 0) {
+            $paring = "SELECT * FROM kohvikud";
+            $valjund = mysqli_query($yhendus, $paring);
+            while ($rida = mysqli_fetch_assoc($valjund)) {
+                $vastus = mysqli_affected_rows($yhendus);
+            if ($vastus > 0) {
                 // output data of each row
-                while($rida = $valjund->fetch_assoc()) {
                     echo "<tbody>"; 
                         echo "<tr>";
-                        echo "<tr onclick=\"redirectToPage('" . $rida["nimi"] . "')\">";
-                            echo "<td>" . $rida["nimi"] . "</td>";
+                        echo "<tr>";
+                            echo "<td>" . $rida["id"] . "</td>";
+                            echo "<td><a href='form.php?id=".$rida["id"]."'>" . $rida["nimi"] . "</a></td>";
                             echo "<td>" . $rida["asukoht"] . "</td>";
                             echo "<td>" . $rida["hinnang"] . "</td>";
                             echo "<td>" . $rida["korda"] . "</td>";
                         echo "</tr>";	
                     echo "</tbody>"; 		
                 }
-            } else {
-                echo "0 results";
             }
+            // } else {
+            //     echo "0 results";
+            // }
             echo "</table>";
         echo "</div>";
     ?>
-    <div class="container">
+    <!-- <div class="container">
         <div class="row">
             <div class="col-12 d-flex justify-content-end mb-5">
                 <?php if($currentPage > 1): ?>
@@ -95,7 +96,7 @@
                 <?php endif; ?>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <footer class="fixed-bottom">
         <div class="container">
