@@ -14,28 +14,28 @@
 <body>
 
     <div class="container">
-        <?php 
-        $id = $_GET['id']; 
-        $paring = "SELECT nimi FROM kohvikud WHERE id = ".$id." ";
+        <?php
+        $id = $_GET['id'];
+        $paring = "SELECT nimi FROM kohvikud WHERE id = " . $id . " ";
         $valjund = mysqli_query($yhendus, $paring);
         $rida = mysqli_fetch_assoc($valjund);
         ?>
-        <h1 class="display-6 mt-3 text-center">Hinda kohvikut ><?php echo $rida["nimi"];?></h1>
+        <h1 class="display-6 mt-3 text-center">Hinda kohvikut ><?php echo $rida["nimi"]; ?></h1>
     </div>
     <?php
-        if (isset($_GET["kommentaar"])) {
-            $id = $_GET["id"];
-            $nimi = $_GET["nimi"];
-            $kommentaar = $_GET["kommentaar"];
-            $hinne = $_GET["hinne"];
+    if (isset($_GET["kommentaar"])) {
+        $id = $_GET["id"];
+        $nimi = $_GET["nimi"];
+        $kommentaar = $_GET["kommentaar"];
+        $hinne = $_GET["hinne"];
 
-            $paring = "INSERT INTO hinnangud (nimi, kommentaar, kohvikud_id, hinne) VALUES ('".$nimi."', '".$kommentaar."', '".$id."', '".$hinne."')";
-            var_dump($paring);
-            $valjund = mysqli_query($yhendus, $paring);
-            if ($valjund) {
-                header("Location: form.php?id=".$id."");
-            }
+        $paring = "INSERT INTO hinnangud (nimi, kommentaar, kohvikud_id, hinne) VALUES ('" . $nimi . "', '" . $kommentaar . "', '" . $id . "', '" . $hinne . "')";
+        var_dump($paring);
+        $valjund = mysqli_query($yhendus, $paring);
+        if ($valjund) {
+            header("Location: form.php?id=" . $id . "");
         }
+    }
     ?>
     <div class="container">
         <form>
@@ -57,31 +57,33 @@
                 </div>
             </div>
             <div class="row mt-1 justify-content-center">
-            <fieldset>
-                <label class="col-sm-2 col-form-label">Hinnang</label>
-                <div class="col-3 mb-3">
-                    <input type="radio" id="1" name="hinne" value="1" checked />
-                    <label for="1">1</label>
-                    <input type="radio" id="2" name="hinne" value="2" />
-                    <label for="2">2</label>
-                    <input type="radio" id="3" name="hinne" value="3" />
-                    <label for="3">3</label>
-                    <input type="radio" id="4" name="hinne" value="4" />
-                    <label for="4">4</label>
-                    <input type="radio" id="5" name="hinne" value="5" />
-                    <label for="5">5</label>
-                    <input type="radio" id="6" name="hinne" value="6" />
-                    <label for="6">6</label>
-                    <input type="radio" id="7" name="hinne" value="7" />
-                    <label for="7">7</label>
-                    <input type="radio" id="8" name="hinne" value="8" />
-                    <label for="8">8</label>
-                    <input type="radio" id="9" name="hinne" value="9" />
-                    <label for="9">9</label>
-                    <input type="radio" id="10" name="hinne" value="10" />
-                    <label for="10">10</label>
+                <label class="col-sm-1 col-form-label">Hinnang</label>
+                <div class="col-4 mb-3">
+                    <fieldset>
+                        <div class="text-end">
+                            <input type="radio" id="1" name="hinne" value="1" checked />
+                            <label for="1">1</label>
+                            <input type="radio" id="2" name="hinne" value="2" />
+                            <label for="2">2</label>
+                            <input type="radio" id="3" name="hinne" value="3" />
+                            <label for="3">3</label>
+                            <input type="radio" id="4" name="hinne" value="4" />
+                            <label for="4">4</label>
+                            <input type="radio" id="5" name="hinne" value="5" />
+                            <label for="5">5</label>
+                            <input type="radio" id="6" name="hinne" value="6" />
+                            <label for="6">6</label>
+                            <input type="radio" id="7" name="hinne" value="7" />
+                            <label for="7">7</label>
+                            <input type="radio" id="8" name="hinne" value="8" />
+                            <label for="8">8</label>
+                            <input type="radio" id="9" name="hinne" value="9" />
+                            <label for="9">9</label>
+                            <input type="radio" id="10" name="hinne" value="10" />
+                            <label for="10">10</label>
+                        </div>
+                    </fieldset>
                 </div>
-                </fieldset>
             </div>
             <div class="row mt-1 justify-content-end">
                 <div class="col-sm-1">
@@ -94,15 +96,17 @@
             </div>
         </form>
         <h1 class="display-6 mt-5 text-center">Kasutajate tagasiside</h1>
-        <?php 
-        $paring = "SELECT * FROM hinnangud WHERE kohvikud_id = ".$id."";
-        $valjund = mysqli_query($yhendus, $paring);
-        while ($rida = mysqli_fetch_assoc($valjund)) { 
-            echo "<strong>".$rida["nimi"]." ( ".$rida["hinne"]."/10)</strong><br>";
-            echo $rida["kommentaar"]."<br><br>";
+        <div class="row">
+            <?php
+            $paring = "SELECT * FROM hinnangud WHERE kohvikud_id = " . $id . "";
+            $valjund = mysqli_query($yhendus, $paring);
+            while ($rida = mysqli_fetch_assoc($valjund)) {
+                echo "<p><strong>" . $rida["nimi"] . " ( " . $rida["hinne"] . "/10)</strong></p><br>";
+                echo "<p>" . $rida["kommentaar"] . "</p><br><br>";
 
-        }
-        ?>
+            }
+            ?>
+        </div>
     </div>
 
 

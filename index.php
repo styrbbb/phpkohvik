@@ -1,3 +1,4 @@
+<?php include ('config.php'); ?>
 <!doctype html>
 <html lang="et">
 
@@ -19,84 +20,87 @@
         <div class="row justify-content-end">
             <div class="col-3 text-right mt-5">
                 <form class="form-inline my-2 my-lg-0" method="GET" action="">
-                    <input class="form-control mr-sm-2 rounded-0" type="search" name="search" placeholder="Otsi" aria-label="Search">
+                    <input class="form-control mr-sm-2 rounded-0" type="search" name="search" placeholder="Otsi"
+                        aria-label="Search">
                     <button class="btn btn-outline-secondary rounded-0 text-dark" type="submit">Otsi</button>
                 </form>
             </div>
         </div>
     </div>
-    <?php include('config.php'); ?>
-    <?php 
-        // $perPage = 10; // Kohvikute arv lehel
-    //     $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1; //Kasutab ? ehk kolmeosaline operaator, mis on üks tingismuslike operaatorite liike. Seda põhimõteliselt kasutatakse, et lühendada kooditükki.
-    //     $offset = ($currentPage - 1) * $perPage;
-        
-    //     $search = isset($_GET['search']) ? $_GET['search'] : '';
+    <?php
+    $kohvikud = 10;
+    //lehtede arvutamine
+    $kohvikud_kokku_paring = "SELECT COUNT('id') FROM kohvikud";
+    $lehtede_vastus = mysqli_query($yhendus, $kohvikud_kokku_paring);
+    $kohvikud_kokku = mysqli_fetch_array($lehtede_vastus);
+    $lehti_kokku = $kohvikud_kokku[0];
+    $lehti_kokku = ceil($lehti_kokku / $kohvikud);
+    //var_dump($lehti_kokku);
+    // echo 'Lehekülgi kokku: ' . $lehti_kokku . '<br>';
+    // echo 'Kohvikuid lehel: ' . $kohvikud . '<br>';
+    //kasutaja valik
+    if (isset($_GET['page'])) {
+        $leht = $_GET['page'];
+    } else {
+        $leht = 1;
+    }
+    //millest näitamist alustatakse
+    $start = ($leht - 1) * $kohvikud;
 
-    //     $totalQuery = 'SELECT COUNT(*) as total FROM kohvikud';
-    //     if ($search) {
-    //         $totalQuery .= " WHERE nimi LIKE '%$search%'";
-    //     }
-    //     $totalResult = $yhendus->query($totalQuery);
-    //     $totalKohvikud = $totalResult->fetch_assoc()['total'];
-    //     $totalPages = ceil($totalKohvikud / $perPage);
-
-    //     $paring = "SELECT * FROM kohvikud";
-    //     if ($search) {
-    //         $paring .= " WHERE nimi LIKE '%$search%'";
-    //     }
-    //     $paring .= " LIMIT $perPage OFFSET $offset"; 
-    //     $valjund = $yhendus->query($paring);
-        
     echo "<div class='container table-container'>";
-        echo "<table class='table table-light table-hover table-bordered text-start rounded-0 mt-1'>";
+    echo "<table class='table table-light table-hover table-bordered text-start rounded-0 mt-1'>";
 
-            echo "<thead class='table-secondary'>";
-                echo "<tr>";
-                    echo "<th scope='col'>ID</th>";
-                    echo "<th scope='col'>Nimi</th>";
-                    echo "<th scope='col'>Asukoht</th>";
-                    echo "<th scope='col'>Keskmine hinne</th>";
-                    echo "<th scope='col'>Hinnatud (korda)</th>";
-                echo "</tr>";
-            echo "</thead>";
+    echo "<thead class='table-secondary'>";
+    echo "<tr>";
+    echo "<th scope='col'>ID</th>";
+    echo "<th scope='col'>Nimi</th>";
+    echo "<th scope='col'>Asukoht</th>";
+    echo "<th scope='col'>Keskmine hinne</th>";
+    echo "<th scope='col'>Hinnatud (korda)</th>";
+    echo "</tr>";
+    echo "</thead>";
 
-            $paring = "SELECT * FROM kohvikud";
-            $valjund = mysqli_query($yhendus, $paring);
-            while ($rida = mysqli_fetch_assoc($valjund)) {
-                $vastus = mysqli_affected_rows($yhendus);
-            if ($vastus > 0) {
-                // output data of each row
-                    echo "<tbody>"; 
-                        echo "<tr>";
-                        echo "<tr>";
-                            echo "<td>" . $rida["id"] . "</td>";
-                            echo "<td><a href='form.php?id=".$rida["id"]."'>" . $rida["nimi"] . "</a></td>";
-                            echo "<td>" . $rida["asukoht"] . "</td>";
-                            echo "<td>" . $rida["hinnang"] . "</td>";
-                            echo "<td>" . $rida["korda"] . "</td>";
-                        echo "</tr>";	
-                    echo "</tbody>"; 		
-                }
-            }
-            // } else {
-            //     echo "0 results";
-            // }
-            echo "</table>";
-        echo "</div>";
+    $paring = "SELECT * FROM kohvikud LIMIT $start, $kohvikud";
+    $valjund = mysqli_query($yhendus, $paring);
+    while ($rida = mysqli_fetch_assoc($valjund)) {
+        $vastus = mysqli_affected_rows($yhendus);
+        if ($vastus > 0) {
+            // output data of each row
+            echo "<tbody>";
+            echo "<tr>";
+            echo "<tr>";
+            echo "<td>" . $rida["id"] . "</td>";
+            echo "<td><a href='form.php?id=" . $rida["id"] . "'>" . $rida["nimi"] . "</a></td>";
+            echo "<td>" . $rida["asukoht"] . "</td>";
+            echo "<td>" . $rida["hinnang"] . "</td>";
+            echo "<td>" . $rida["korda"] . "</td>";
+            echo "</tr>";
+            echo "</tbody>";
+        }
+    }
+    // } else {
+    //     echo "0 results";
+    // }
+    echo "</table>";
+    echo "</div>";
     ?>
-    <!-- <div class="container">
-        <div class="row">
-            <div class="col-12 d-flex justify-content-end mb-5">
-                <?php if($currentPage > 1): ?>
-                    <a href="?page=<?php echo $currentPage - 1; ?>" class="btn btn-outline-secondary rounded-0 text-dark"> < Eelmised </a>
-                <?php endif; ?>
-                <?php if($currentPage < $totalPages): ?>
-                    <a href="?page=<?php echo $currentPage + 1; ?>" class="btn btn-outline-secondary rounded-0 text-dark"> Järgmised > </a>
-                <?php endif; ?>
-            </div>
-        </div>
-    </div> -->
+    <?php
+    echo "<div class='container'>";
+        echo "<div class='row'>";
+            echo "<div class='col-12 d-flex justify-content-end mb-5'>";
+                $eelmine = $leht - 1;
+                $jargmine = $leht + 1;
+                if ($leht > 1) {
+                    echo "<a href=\"?page=$eelmine\" class='btn btn-outline-secondary rounded-0 text-dark'>< Eelmised &nbsp</a>";
+                }
+                    echo "&nbsp";
+                if ($leht < $lehti_kokku) { 
+                echo "<a href=\"?page=$jargmine\" class='btn btn-outline-secondary rounded-0 text-dark'>Järgmised ></a>";
+                } 
+            echo "</div>";
+        echo "</div>";
+    echo "</div>";
+    ?>
 
     <footer class="fixed-bottom">
         <div class="container">
