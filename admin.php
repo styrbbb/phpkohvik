@@ -83,7 +83,7 @@ if (!isset($_SESSION['tuvastamine'])) {
         echo "<td>" . $rida["asukoht"] . "</td>";
         echo "<td>" . $rida["hinnang"] . "</td>";
         echo "<td>" . $rida["korda"] . "</td>";
-        echo '<td><a class="btn btn-danger btn-sm" href="?del=1&id='.$rida['id'].'">Kustuta</a></td>';
+        echo '<td><a class="btn btn-success btn-sm" href="?edit=1&id='.$rida['id'].'">Muuda</a> <a class="btn btn-danger btn-sm" href="?del=1&id='.$rida['id'].'">Kustuta</a><br></td>';
         echo "</tr>";
         echo "</tbody>";
     }
