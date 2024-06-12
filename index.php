@@ -19,15 +19,16 @@
     <div class="container search_container">
         <div class="row justify-content-end">
             <div class="col-3 text-right mt-5">
-                <form class="form-inline my-2 my-lg-0" method="GET" action="">
-                    <input class="form-control mr-sm-2 rounded-0" type="search" name="search" placeholder="Otsi"
-                        aria-label="Search">
+                <form class="form-inline my-2 my-lg-0" method="get" action="">
+                    <input class="form-control mr-sm-2 rounded-0" type="search" name="otsi" placeholder="Otsi"
+                        aria-label="otsi">
                     <button class="btn btn-outline-secondary rounded-0 text-dark" type="submit">Otsi</button>
                 </form>
             </div>
         </div>
     </div>
-    <?php
+
+    <?php 
     $kohvikud = 10;
     //lehtede arvutamine
     $kohvikud_kokku_paring = "SELECT COUNT('id') FROM kohvikud";
@@ -35,21 +36,17 @@
     $kohvikud_kokku = mysqli_fetch_array($lehtede_vastus);
     $lehti_kokku = $kohvikud_kokku[0];
     $lehti_kokku = ceil($lehti_kokku / $kohvikud);
-    //var_dump($lehti_kokku);
-    // echo 'Lehekülgi kokku: ' . $lehti_kokku . '<br>';
-    // echo 'Kohvikuid lehel: ' . $kohvikud . '<br>';
-    //kasutaja valik
+
     if (isset($_GET['page'])) {
         $leht = $_GET['page'];
     } else {
         $leht = 1;
     }
-    //millest näitamist alustatakse
+
     $start = ($leht - 1) * $kohvikud;
 
     echo "<div class='container table-container'>";
     echo "<table class='table table-light table-hover table-bordered text-start rounded-0 mt-1'>";
-
     echo "<thead class='table-secondary'>";
     echo "<tr>";
     echo "<th scope='col'>ID</th>";
@@ -60,30 +57,29 @@
     echo "</tr>";
     echo "</thead>";
 
-    $paring = "SELECT * FROM kohvikud LIMIT $start, $kohvikud";
+    if (isset($_GET['otsi'])) {
+        $otsi = mysqli_real_escape_string($yhendus, $_GET['otsi']);
+        $paring = "SELECT * FROM kohvikud WHERE nimi LIKE '%$otsi%' OR asukoht LIKE '%$otsi%' LIMIT $start, $kohvikud";
+    } else {
+        $paring = "SELECT * FROM kohvikud LIMIT $start, $kohvikud";
+    }
+
     $valjund = mysqli_query($yhendus, $paring);
     while ($rida = mysqli_fetch_assoc($valjund)) {
-        $vastus = mysqli_affected_rows($yhendus);
-        if ($vastus > 0) {
-            // output data of each row
-            echo "<tbody>";
-            echo "<tr>";
-            echo "<tr>";
-            echo "<td>" . $rida["id"] . "</td>";
-            echo "<td><a href='form.php?id=" . $rida["id"] . "'>" . $rida["nimi"] . "</a></td>";
-            echo "<td>" . $rida["asukoht"] . "</td>";
-            echo "<td>" . $rida["hinnang"] . "</td>";
-            echo "<td>" . $rida["korda"] . "</td>";
-            echo "</tr>";
-            echo "</tbody>";
-        }
+        echo "<tbody>";
+        echo "<tr>";
+        echo "<td>" . $rida["id"] . "</td>";
+        echo "<td><a href='form.php?id=" . $rida["id"] . "'>" . $rida["nimi"] . "</a></td>";
+        echo "<td>" . $rida["asukoht"] . "</td>";
+        echo "<td>" . $rida["hinnang"] . "</td>";
+        echo "<td>" . $rida["korda"] . "</td>";
+        echo "</tr>";
+        echo "</tbody>";
     }
-    // } else {
-    //     echo "0 results";
-    // }
     echo "</table>";
     echo "</div>";
     ?>
+
     <?php
     echo "<div class='container'>";
         echo "<div class='row'>";
@@ -111,8 +107,6 @@
             </div>
         </div>
     </footer>
-
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
