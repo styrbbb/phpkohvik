@@ -5,7 +5,7 @@
 	  header('Location: admin.php');
 	  exit();
 	  }
-      //var_dump(password_hash('tperk', PASSWORD_DEFAULT));
+      //var_dump(password_hash('admin', PASSWORD_DEFAULT));
 	  //kontrollime kas väljad on täidetud
 	if (!empty($_POST['login']) && !empty($_POST['pass'])) {
 		//eemaldame kasutaja sisestusest kahtlase pahna
