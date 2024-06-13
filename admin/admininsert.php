@@ -1,4 +1,4 @@
-<?php include('config.php'); ?>
+<?php include('../config.php'); ?>
 <?php
 session_start();
 if (!isset($_SESSION['tuvastamine'])) {
@@ -38,7 +38,7 @@ if (!isset($_SESSION['tuvastamine'])) {
 			echo "Kirjet ei lisatud";
 		}
 		//suunan tagasi avalehele
-		header("Location: admin.php");
+		header("Location: index.php");
 	}
             
     ?>
@@ -63,7 +63,7 @@ if (!isset($_SESSION['tuvastamine'])) {
                 </div>
                 <div class="row mt-1 justify-content-end">
                     <div class="col-sm-1">
-                        <a class="btn btn-link" href="admin.php">
+                        <a class="btn btn-link" href="index.php">
                             < Tagasi</a>
                     </div>
                     <div class="col-5">
