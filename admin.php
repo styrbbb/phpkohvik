@@ -83,18 +83,28 @@ if (!isset($_SESSION['tuvastamine'])) {
         echo "<td>" . $rida["asukoht"] . "</td>";
         echo "<td>" . $rida["hinnang"] . "</td>";
         echo "<td>" . $rida["korda"] . "</td>";
-        echo '<td><a class="btn btn-success btn-sm" href="?edit=1&id='.$rida['id'].'">Muuda</a> <a class="btn btn-danger btn-sm" href="?del=1&id='.$rida['id'].'">Kustuta</a><br></td>';
+        echo '<td><a class="btn btn-success btn-sm" name="muuda" href="adminedit.php?edit=1&id=' . $rida["id"].'">Muuda</a> <a class="btn btn-danger btn-sm" href="?del=1&id='.$rida['id'].'">Kustuta</a><br></td>';
         echo "</tr>";
         echo "</tbody>";
     }
     echo "</table>";
     echo "</div>";
+    	 //kustutamine
+	 if (!empty($_GET["id"]) && !empty($_GET["del"])) {
+		$id = htmlspecialchars(trim($_GET["id"]));
+		$paring = "DELETE FROM kohvikud WHERE id=$id"; 
+		$valjund = mysqli_query($yhendus, $paring);
+		$tulemus = mysqli_affected_rows($yhendus);
+		if ($tulemus == 1) {
+			echo "Rida kustutatud: Palun värskenda leht nüüd!";
+		}	
+	}
     ?>
 
     <?php
     echo "<div class='container'>";
         echo "<div class='row'>";
-            echo "<div class='col-12 d-flex justify-content-end mb-5'>";
+            echo "<div class='col-12 d-flex justify-content-end mb-4'>";
                 $eelmine = $leht - 1;
                 $jargmine = $leht + 1;
                 if ($leht > 1) {
@@ -108,6 +118,11 @@ if (!isset($_SESSION['tuvastamine'])) {
         echo "</div>";
     echo "</div>";
     ?>
+        <div class="container">
+        <form class="text-end" action="admininsert.php" method="post">
+            <input type="submit" value="Lisa kohvik" name="lisa">
+        </form>
+    </div>
 
     <footer class="fixed-bottom">
         <div class="container">
@@ -119,7 +134,7 @@ if (!isset($_SESSION['tuvastamine'])) {
         </div>
     </footer>
     <div class="container">
-        <form action="logout.php" method="post">
+        <form class="text-end mt-4" action="logout.php" method="post">
             <input type="submit" value="Logi välja" name="logout">
         </form>
     </div>

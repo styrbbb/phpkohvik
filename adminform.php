@@ -25,17 +25,14 @@ if (!isset($_SESSION['tuvastamine'])) {
 
     <div class="container">
         <?php
-        $id = isset($_GET['id']) ? $_GET['id'] : null;
-        if ($id === null) {
-            // Handle the case where 'id' is not set, e.g., display an error or redirect
-            die("ID is not set");
-        }
+        $id = $_GET["id"];
         $paring = "SELECT nimi FROM kohvikud WHERE id = " . $id . " ";
         $valjund = mysqli_query($yhendus, $paring);
         $rida = mysqli_fetch_assoc($valjund);
         ?>
         <h1 class="display-6 mt-3 text-center">Hinda kohvikut ><?php echo $rida["nimi"]; ?></h1>
     </div>
+    
     <?php
     if (isset($_GET["kommentaar"])) {
         $id = $_GET["id"];
@@ -128,25 +125,13 @@ if (!isset($_SESSION['tuvastamine'])) {
                 while ($rida = mysqli_fetch_assoc($valjund)) {
                 echo '<tbody>
                             <tr>
-                                <td><strong>' . $rida["nimi"] .'</strong></p></td>
-                                <td>' . $rida["kommentaar"] .'</td> 
-                                <td>' . " ( " . $rida["hinne"] . '/10)</td>
-                                <td><a href="'.$_SERVER['PHP_SELF'].'?id='.$rida["id"].'">kustuta</a></td>
+                                <td><strong>' . htmlspecialchars($rida["nimi"]) .'</strong></p></td>
+                                <td>' . htmlspecialchars($rida["kommentaar"]) .'</td> 
+                                <td>' . " ( " . htmlspecialchars($rida["hinne"]) . '/10)</td>
+                                <td><a href="kustutamine.php?id='.$rida["id"].'">kustuta</a></td>
                             </tr>
                         </tbody>';
 
-                }
-                if(isset($_GET['id'])){
-                    //kustutamise päringud
-                    $id = $_GET['id'];
-                    $kustuta_paring = "DELETE FROM hinnangud WHERE id='$id'";
-                    $kustuta_valjund = mysqli_query($yhendus, $kustuta_paring);
-                    if($kustuta_valjund){
-                        echo "Rida kustutatud!";
-                        echo '<META HTTP-EQUIV="Refresh" Content="0; URL='.$_SERVER['PHP_SELF'].'">';
-                    } else {
-                        echo "Viga kustutamisel!";
-                    }
                 }
                 ?>
                 </table>
