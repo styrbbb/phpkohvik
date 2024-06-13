@@ -52,6 +52,8 @@ if (!isset($_SESSION['tuvastamine'])) {
         $leht = 1;
     }
 
+    
+
     $start = ($leht - 1) * $kohvikud;
 
     echo "<div class='container table-container'>";
