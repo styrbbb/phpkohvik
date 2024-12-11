@@ -1,8 +1,8 @@
-<?php include('config.php'); ?>
+<?php include('../config.php'); ?>
 <?php
 	session_start();
 	if (isset($_SESSION['tuvastamine'])) {
-	  header('Location: admin.php');
+	  header('Location: ../index.php');
 	  exit();
 	  }
       //var_dump(password_hash('admin', PASSWORD_DEFAULT));
@@ -21,7 +21,7 @@
             if (password_verify($pass, $hashedPassword)) {
                 echo "Õige";
                     $_SESSION['tuvastamine'] = $login;
-                    header('Location: admin.php');
+                    header('Location: index.php');
                     exit();
             } else {
                 echo "Vale pass";

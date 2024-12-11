@@ -45,6 +45,15 @@
 
     $start = ($leht - 1) * $kohvikud;
 
+    
+    $paringkorda = "UPDATE kohvikud
+        SET korda = (
+        SELECT COUNT(*)
+        FROM hinnangud
+        WHERE hinnangud.kohvikud_id = kohvikud.id)";
+    
+    mysqli_query($yhendus, $paringkorda);
+
     echo "<div class='container table-container'>";
     echo "<table class='table table-light table-hover table-bordered text-start rounded-0 mt-1'>";
     echo "<thead class='table-secondary'>";
